@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Item from '../components/Item';
 import { fetchItems, assignSplitToItem } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 function ItemView() {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchItems().then(setItems);
@@ -17,9 +19,14 @@ function ItemView() {
     });
   };
 
+  const handleToPersonView = () => {
+    navigate('/people', { state: { items } });
+  }
+
   return (
     <div className="items-page">
       <h2>Items</h2>
+      <button className='next-button' onClick={handleToPersonView}>Person View</button>
       <ul>
         {items.map((item) => (
           <Item key={item.id} item={item} onAssignSplit={handleAssignSplit} />
